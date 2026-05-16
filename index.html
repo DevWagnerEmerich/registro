@@ -485,7 +485,24 @@ function generateReport() {
 
   let printHtml = `<h1 style="text-align:center; margin-bottom:10px;">Relatório de Horas</h1><p style="text-align:center;">Período: ${start.toLocaleDateString()} a ${end.toLocaleDateString()}</p><hr style="margin:20px 0;">`;
   for (const d in days) {
-    printHtml += `<div class="print-row"><span>${d}</span><b>${UI.fmtHM(days[d].total)}</b></div>`;
+    const entryListHtml = days[d].entries
+      .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+      .map(e => {
+        const timeStr = new Date(e.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const typeStr = e.type === 'entrada' ? 'Entrada' : 'Saída';
+        const manualStr = e.manual ? ' (Manual)' : '';
+        return `<div style="font-size:12px; color:#444; margin-left:10px;">• ${timeStr} - ${typeStr}${manualStr}</div>`;
+      }).join('');
+      
+    printHtml += `
+      <div class="print-row" style="flex-direction: column; align-items: stretch;">
+        <div style="display:flex; justify-content:space-between; font-weight:bold; margin-bottom:5px;">
+          <span>${d}</span>
+          <span>${UI.fmtHM(days[d].total)}</span>
+        </div>
+        ${entryListHtml}
+      </div>
+    `;
   }
   printHtml += `<hr style="margin:20px 0;"><h2 style="text-align:right;">Total Acumulado: ${UI.fmtHM(totalPeriod)}</h2>`;
   document.getElementById('reportPrintArea').innerHTML = printHtml;
