@@ -105,17 +105,17 @@ input,select,textarea{font-family:var(--font-main);outline:none;}
   </nav>
 
   <div class="nav-tabs">
-    <button class="tab-btn active" onclick="setView('clock')">
+    <button class="tab-btn active" id="tab-clock" onclick="setView('clock')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>Início</span>
     </button>
-    <button class="tab-btn" onclick="setView('reports')">
+    <button class="tab-btn" id="tab-reports" onclick="setView('reports')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       <span>Relatórios</span>
     </button>
-    <button class="tab-btn" onclick="setView('settings')">
+    <button class="tab-btn" id="tab-settings" onclick="setView('settings')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      <span>Ajustes</span>
+      <span>Dados</span>
     </button>
   </div>
 
@@ -139,13 +139,13 @@ input,select,textarea{font-family:var(--font-main);outline:none;}
         <div class="stat-label">Hoje</div>
         <div class="stat-value" id="statToday">0h 00m</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Pendentes Sync</div>
-        <div class="stat-value" id="statPending">0</div>
+      <div class="stat-card" style="border-color: var(--accent);">
+        <div class="stat-label">Total do Mês</div>
+        <div class="stat-value" id="statMonth" style="color: var(--accent);">0h 00m</div>
       </div>
     </div>
 
-    <h4 style="font-size:13px; color:var(--text2); margin-bottom:12px; text-transform:uppercase;">Hoje</h4>
+    <h4 style="font-size:12px; color:var(--text2); margin-bottom:12px; text-transform:uppercase; letter-spacing: 0.05em;">Registros Recentes</h4>
     <div id="entriesList"></div>
   </div>
 
@@ -172,19 +172,15 @@ input,select,textarea{font-family:var(--font-main);outline:none;}
   <!-- SETTINGS VIEW -->
   <div class="view" id="view-settings">
     <div class="stat-card">
-      <div class="stat-label">Avançado</div>
-      <p style="font-size:12px; color:var(--text3); margin-bottom:15px;">Configurações de conexão e dados.</p>
-      <div class="form-group" style="margin-bottom:10px;">
-        <label class="form-label">Supabase URL</label>
-        <input type="text" id="sbUrl" class="form-input">
+      <div class="stat-label">Gerenciamento</div>
+      <p style="font-size:12px; color:var(--text3); margin-bottom:20px;">Aqui você pode apagar todos os dados salvos localmente e reiniciar o aplicativo.</p>
+      <button class="btn-secondary" style="color:var(--red); border: 1px solid var(--red-border);" onclick="clearData()">Limpar Todos os Dados</button>
+      
+      <div style="margin-top:40px; opacity: 0.3; pointer-events: none;">
+         <div class="stat-label">Configuração de Conexão</div>
+         <div class="form-group"><input type="text" id="sbUrl" class="form-input" disabled></div>
+         <div class="form-group" style="margin-top:8px;"><input type="password" id="sbKey" class="form-input" disabled></div>
       </div>
-      <div class="form-group" style="margin-bottom:15px;">
-        <label class="form-label">Anon Key</label>
-        <input type="password" id="sbKey" class="form-input">
-      </div>
-      <button class="btn-secondary" onclick="saveConfig()">Salvar Configurações</button>
-      <hr style="border:none; border-top:1px solid var(--border); margin:20px 0;">
-      <button class="btn-secondary" style="color:var(--red);" onclick="clearData()">Limpar Tudo</button>
     </div>
   </div>
 
@@ -286,38 +282,59 @@ const Sync = {
 const UI = {
   update() {
     const entries = Storage.get();
-    const today = new Date().toLocaleDateString('pt-BR');
+    const now = new Date();
+    const today = now.toLocaleDateString('pt-BR');
+    const monthYear = now.toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
     
     // Stats Hoje
     const todayMs = entries
       .filter(e => new Date(e.timestamp).toLocaleDateString('pt-BR') === today)
       .reduce((acc, e) => acc + (e.duration || 0), 0);
     document.getElementById('statToday').textContent = this.fmtHM(todayMs);
-    document.getElementById('statPending').textContent = entries.filter(e => e.sync === 'pending').length;
 
-    // List Hoje
-    const list = document.getElementById('entriesList');
-    const todayEntries = entries
-      .filter(e => new Date(e.timestamp).toLocaleDateString('pt-BR') === today)
-      .sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    // Stats Mês (Soma tudo do mês atual)
+    const monthMs = entries
+      .filter(e => new Date(e.timestamp).toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' }) === monthYear)
+      .reduce((acc, e) => acc + (acc + (e.duration || 0) > 0 ? (e.duration || 0) : 0), 0);
     
-    list.innerHTML = todayEntries.length ? todayEntries.map(e => `
-      <div class="entry-item">
-        <div class="entry-info">
-          <div class="entry-dot" style="background:${e.type==='entrada'?'var(--green)':'var(--red)'}"></div>
-          <div>
-            <div style="font-weight:600; font-size:13px;">${e.type==='entrada'?'Entrada':'Saída'} ${e.manual?'<small style="color:var(--accent); margin-left:4px;">manual</small>':''}</div>
-            <div style="font-size:11px; color:var(--text3);">${new Date(e.timestamp).toLocaleTimeString('pt-BR')}</div>
+    // Correção da soma: apenas entradas que tenham duração (saídas)
+    let totalMonth = 0;
+    entries.forEach(e => {
+        const d = new Date(e.timestamp);
+        if (d.toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' }) === monthYear) {
+            totalMonth += (e.duration || 0);
+        }
+    });
+    document.getElementById('statMonth').textContent = this.fmtHM(totalMonth);
+
+    // List Recentes (Últimos 10, qualquer dia)
+    const list = document.getElementById('entriesList');
+    const recentEntries = entries
+      .sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, 10);
+    
+    list.innerHTML = recentEntries.length ? recentEntries.map(e => {
+      const dt = new Date(e.timestamp);
+      const isToday = dt.toLocaleDateString('pt-BR') === today;
+      const dateLabel = isToday ? 'Hoje' : dt.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      
+      return `
+        <div class="entry-item">
+          <div class="entry-info">
+            <div class="entry-dot" style="background:${e.type==='entrada'?'var(--green)':'var(--red)'}"></div>
+            <div>
+              <div style="font-weight:600; font-size:13px;">${e.type==='entrada'?'Entrada':'Saída'} ${e.manual?'<small style="color:var(--accent); margin-left:4px;">manual</small>':''}</div>
+              <div style="font-size:11px; color:var(--text3);">${dateLabel} às ${dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
           </div>
+          <button class="btn-delete" onclick="deleteEntry('${e.id}')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
         </div>
-        <button class="btn-delete" onclick="deleteEntry('${e.id}')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
-    `).join('') : '<p style="text-align:center; padding:20px; color:var(--text3);">Nenhum registro hoje</p>';
+      `;
+    }).join('') : '<p style="text-align:center; padding:20px; color:var(--text3);">Nenhum registro ainda</p>';
 
     // Clock
-    const now = new Date();
     document.getElementById('clockDisplay').textContent = now.toLocaleTimeString('pt-BR');
     document.getElementById('clockDate').textContent = now.toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long'});
 
@@ -385,12 +402,16 @@ function saveManualEntry() {
   const tOut = document.getElementById('manualOut').value;
   if (!date || !tIn || !tOut) return showToast("Preencha tudo!");
   
-  const start = new Date(`${date}T${tIn}`);
-  const end = new Date(`${date}T${tOut}`);
+  // Usar a data fornecida mas garantir o fuso local para evitar erros de dia
+  const start = new Date(`${date}T${tIn}:00`);
+  const end = new Date(`${date}T${tOut}:00`);
+  
   if (end <= start) return showToast("Saída deve ser após a entrada!");
 
   const entries = Storage.get();
   const baseId = Date.now();
+  
+  // Adicionar entrada e saída
   entries.push({ id: 'm-i-'+baseId, timestamp: start.toISOString(), type: 'entrada', sync: 'pending', manual: true });
   entries.push({ id: 'm-o-'+baseId, timestamp: end.toISOString(), type: 'saida', duration: end.getTime()-start.getTime(), sync: 'pending', manual: true });
   
@@ -398,13 +419,16 @@ function saveManualEntry() {
   closeManualModal();
   UI.update();
   Sync.process();
-  showToast("Salvo!");
+  showToast("Registro salvo com sucesso!");
 }
 
 function generateReport() {
-  const start = new Date(document.getElementById('reportStart').value + 'T00:00:00');
-  const end = new Date(document.getElementById('reportEnd').value + 'T23:59:59');
-  if (isNaN(start)) return showToast("Selecione as datas!");
+  const startStr = document.getElementById('reportStart').value;
+  const endStr = document.getElementById('reportEnd').value;
+  if (!startStr || !endStr) return showToast("Selecione as datas!");
+  
+  const start = new Date(startStr + 'T00:00:00');
+  const end = new Date(endStr + 'T23:59:59');
   
   const entries = Storage.get();
   const filtered = entries.filter(e => {
@@ -453,23 +477,23 @@ function setView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
-  document.querySelector(`[onclick="setView('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
 }
 function showToast(m) {
   const t = document.getElementById('toast');
   t.textContent = m; t.style.opacity = 1;
   setTimeout(() => t.style.opacity = 0, 3000);
 }
-function clearData() { if(confirm("Apagar tudo?")) { localStorage.clear(); location.reload(); } }
-function saveConfig() {
-  localStorage.setItem('sb_url', document.getElementById('sbUrl').value);
-  localStorage.setItem('sb_key', document.getElementById('sbKey').value);
-  location.reload();
-}
+function clearData() { if(confirm("Apagar tudo? Isso limpará seus registros locais. Deseja continuar?")) { localStorage.clear(); location.reload(); } }
 
-Config.init();
-setInterval(() => UI.update(), 1000);
-UI.update();
+// Forçar abertura no Início
+document.addEventListener('DOMContentLoaded', () => {
+    Config.init();
+    setView('clock');
+    UI.update();
+    setInterval(() => UI.update(), 1000);
+});
+
 window.addEventListener('online', () => UI.update());
 window.addEventListener('offline', () => UI.update());
 </script>
