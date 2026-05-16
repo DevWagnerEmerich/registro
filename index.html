@@ -40,12 +40,14 @@ body{
 .nav-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
 
 .nav-tabs{
-    display:flex;position:fixed;bottom:0;left:0;right:0;
+    display:flex;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;
     background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    border-top:1px solid var(--border);padding:10px 24px calc(10px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border);border-radius:20px 20px 0 0;
+    border-left:1px solid var(--border); border-right:1px solid var(--border);
+    padding:10px 24px calc(10px + env(safe-area-inset-bottom));
     z-index:900;justify-content:space-around;
 }
-.tab-btn{flex:1;background:transparent;color:var(--text3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
+.tab-btn{flex:1;background:transparent;border:none;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
 .tab-btn svg { transition: transform 0.3s; }
 .tab-btn.active{color:var(--accent);}
 .tab-btn.active svg { transform: translateY(-2px); color: var(--accent); }
