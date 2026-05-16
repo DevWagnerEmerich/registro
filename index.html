@@ -509,9 +509,9 @@ function generateReport() {
         const timeStr = new Date(e.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         const typeStr = e.type === 'entrada' ? 'ENT' : 'SAI';
         const manualStr = e.manual ? '*' : '';
-        const color = e.type === 'entrada' ? '#15803d' : '#b91c1c'; // Verde escuro ou Vermelho escuro
+        const color = e.type === 'entrada' ? '#15803d' : '#b91c1c';
         const bg = e.type === 'entrada' ? '#dcfce7' : '#fee2e2';
-        return `<div style="font-size:11px; color:${color}; background:${bg}; padding:3px 6px; border-radius:4px; border:1px solid ${color};"><b>${timeStr}</b> ${typeStr}${manualStr}</div>`;
+        return `<span style="display:inline-block; font-size:11px; font-family:sans-serif; color:${color}; background:${bg}; padding:4px 8px; border-radius:4px; border:1px solid ${color}; margin-right:6px; margin-bottom:6px;"><b>${timeStr}</b> ${typeStr}${manualStr}</span>`;
       }).join('');
       
     printHtml += `
@@ -520,7 +520,7 @@ function generateReport() {
           <span>📅 ${d}</span>
           <span>⏳ ${UI.fmtHM(days[d].total)}</span>
         </div>
-        <div style="display:flex; flex-wrap: wrap; gap: 6px;">
+        <div style="display:block; line-height:2;">
           ${entryListHtml}
         </div>
       </div>
