@@ -113,11 +113,10 @@ body{
 
 .print-only { display: none !important; }
 @media print {
-  body * { visibility: hidden; display: none !important; }
-  #reportPrintArea, #reportPrintArea * { visibility: visible; display: block !important; }
-  #reportPrintArea { position: absolute; left: 0; top: 0; width: 100%; color: #000; background: #fff; padding: 40px; font-family: sans-serif; }
-  .print-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-  .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  #app, .nav-tabs, #toast { display: none !important; }
+  .print-only { display: block !important; }
+  #reportPrintArea { position: static; width: 100%; color: #000; background: #fff; padding: 20px; font-family: sans-serif; }
 }
 </style>
 </head>
