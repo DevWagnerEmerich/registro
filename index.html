@@ -30,7 +30,8 @@ body{
     min-height:100vh;font-size:14px;line-height:1.6;overflow-x:hidden;
     padding-bottom:120px;
     -webkit-font-smoothing: antialiased;
-    overscroll-behavior-y: none; /* Evita o "bounce" de recarregar no Chrome */
+    overscroll-behavior-y: none;
+    color-scheme: dark; /* Força os ícones de data/hora a ficarem brancos */
 }
 #app{display:flex;flex-direction:column;max-width:500px;margin:0 auto;padding:0 20px;}
 
@@ -41,10 +42,10 @@ body{
 
 .nav-tabs{
     display:flex;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;
-    background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    border-top:1px solid var(--border);border-radius:20px 20px 0 0;
+    background:var(--surface); /* Fundo sólido para não conflitar com rolagem */
+    border-top:1px solid var(--border);
     border-left:1px solid var(--border); border-right:1px solid var(--border);
-    padding:10px 24px calc(10px + env(safe-area-inset-bottom));
+    padding:12px 24px calc(12px + env(safe-area-inset-bottom));
     z-index:900;justify-content:space-around;
 }
 .tab-btn{flex:1;background:transparent;border:none;cursor:pointer;color:var(--text3);font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0;transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);}
@@ -101,9 +102,10 @@ body{
 .modal-footer{padding:20px 24px calc(24px + env(safe-area-inset-bottom));display:flex;gap:14px;}
 
 /* INPUTS */
-.form-input{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);padding:14px;font-size:16px;width:100%;-webkit-appearance:none;}
-.btn-primary{background:var(--accent);color:#fff;padding:16px;border-radius:var(--radius);font-weight:600;width:100%;font-size:15px;}
-.btn-secondary{background:var(--surface3);color:var(--text);padding:16px;border-radius:var(--radius);font-weight:600;width:100%;font-size:15px;}
+.form-input{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);padding:14px;font-size:16px;width:100%;-webkit-appearance:none;transition:0.3s;outline:none;}
+.form-input:focus{border-color:var(--accent);background:rgba(255,255,255,0.06);}
+.btn-primary{background:var(--accent);color:#fff;padding:16px;border-radius:var(--radius);font-weight:600;width:100%;font-size:15px;border:none;cursor:pointer;}
+.btn-secondary{background:var(--surface3);color:var(--text);padding:16px;border-radius:var(--radius);font-weight:600;width:100%;font-size:15px;border:none;cursor:pointer;}
 .btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;}
 
 /* TOAST */
@@ -475,9 +477,23 @@ function generateReport() {
 
   for (const d in days) {
     totalPeriod += days[d].total;
-    html += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border2);">
-      <span style="font-size:14px; font-weight:500;">${d}</span>
-      <span style="font-family:var(--font-mono); font-weight:600; color:var(--text);">${UI.fmtHM(days[d].total)}</span>
+    
+    // Lista detalhada para a tela
+    const screenEntryList = days[d].entries
+      .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+      .map(e => {
+        const timeStr = new Date(e.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const typeStr = e.type === 'entrada' ? 'Entrada' : 'Saída';
+        const manualStr = e.manual ? ' <span style="color:var(--accent);font-size:10px;">(Manual)</span>' : '';
+        return `<div style="font-size:13px; color:var(--text2); margin-top:4px;">• ${timeStr} - ${typeStr}${manualStr}</div>`;
+      }).join('');
+
+    html += `<div style="display:flex; flex-direction:column; padding:14px 0; border-bottom:1px solid var(--border2);">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-size:15px; font-weight:600; color:var(--text);">${d}</span>
+        <span style="font-family:var(--font-mono); font-weight:600; color:var(--text);">${UI.fmtHM(days[d].total)}</span>
+      </div>
+      <div style="padding-left: 8px; border-left: 2px solid var(--border);">${screenEntryList}</div>
     </div>`;
   }
   html += `<div style="margin-top:20px; text-align:right; font-size:18px; font-weight:700; color:var(--accent);">Total: ${UI.fmtHM(totalPeriod)}</div>`;
