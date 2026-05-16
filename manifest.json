@@ -1,0 +1,17 @@
+{
+  "name": "PontoApp - Registro de Ponto",
+  "short_name": "PontoApp",
+  "description": "Sistema de registro de ponto com funcionamento offline e sincronização na nuvem.",
+  "start_url": "./ponto_individual_app.html",
+  "display": "standalone",
+  "background_color": "#0d0f14",
+  "theme_color": "#4f9cf9",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
