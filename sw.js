@@ -1,7 +1,7 @@
 const CACHE_NAME = 'pontoapp-v1';
 const ASSETS = [
   './',
-  './ponto_individual_app.html',
+  './index.html',
   './manifest.json',
   './icon-512.png',
   'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap',
